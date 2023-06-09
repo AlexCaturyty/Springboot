@@ -43,11 +43,17 @@ public class UsuarioController {
 		return ResponseEntity.status(200).body(usuarioService.editarUsuario(usuario));
 	}
 	
-	@DeleteMapping("/{id}")
-	public ResponseEntity<?> excluirUsuario(@PathVariable Integer id) {
-		usuarioService.excluirUsuario(id);
-		return ResponseEntity.status(204).build();
+	@DeleteMapping
+	public ResponseEntity<?> excluirUsuario(@RequestBody Usuario usuario) {
+	    boolean excluido = usuarioService.excluirUsuario(usuario.getNome(), usuario.getSenha());
+	    if (excluido) {
+	        return ResponseEntity.status(204).build();
+	    } else {
+	        return ResponseEntity.status(404).build();
+	    }
 	}
+
+
 	
 	@PostMapping("/login")
 	public ResponseEntity<?> login(@RequestBody Usuario usuario) {

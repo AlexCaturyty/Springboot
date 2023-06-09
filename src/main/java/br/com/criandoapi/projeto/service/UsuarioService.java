@@ -32,10 +32,16 @@ public class UsuarioService {
 		return usuarioNovo;
 	}
 
-	public Boolean excluirUsuario(Integer id) {
-		repository.deleteById(id);
-		return true;
+	public boolean excluirUsuario(String nome, String senha) {
+	    Usuario usuario = repository.findByNome(nome);
+	    if (usuario != null && usuario.getSenha().equals(senha)) {
+	        repository.deleteById(usuario.getId());
+	        return true;
+	    }
+	    return false;
 	}
+
+
 
 	public Usuario autenticarUsuario(String nome, String senha) {
 	    Usuario usuario = repository.findByNome(nome);
