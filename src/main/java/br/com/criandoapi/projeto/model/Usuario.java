@@ -1,10 +1,13 @@
 package br.com.criandoapi.projeto.model;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -22,6 +25,26 @@ private String email;
 	@Column(name = "senha", columnDefinition = "TEXT", nullable = true)
 private String senha;
 
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "endereco_id", referencedColumnName = "id")
+	private Endereco endereco;
+	
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "telefone_id", referencedColumnName = "id")
+	private Telefone telefone;
+	
+public Telefone getTelefone() {
+		return telefone;
+	}
+	public void setTelefone(Telefone telefone) {
+		this.telefone = telefone;
+	}
+public Endereco getEndereco() {
+		return endereco;
+	}
+	public void setEndereco(Endereco endereco) {
+		this.endereco = endereco;
+	}
 public Integer getId() {
 	return id;
 }

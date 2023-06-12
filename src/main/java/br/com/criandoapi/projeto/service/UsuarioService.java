@@ -48,7 +48,7 @@ public class UsuarioService {
 	    if (usuario != null && usuario.getSenha().equals(senha)) {
 	        return usuario;
 	    }
-	    return null; // Autenticação falhou
+	    return null; 
 	}
 
 }
