@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.criandoapi.projeto.dto.UsuarioAtualizacaoDTO;
 import br.com.criandoapi.projeto.model.Usuario;
 import br.com.criandoapi.projeto.service.UsuarioService;
 
@@ -38,9 +39,17 @@ public class UsuarioController {
 	}
 	
 	@PutMapping
-	public ResponseEntity<Usuario> editarUsuario(@RequestBody Usuario usuario) {
-		return ResponseEntity.status(200).body(usuarioService.editarUsuario(usuario));
+	public ResponseEntity<Usuario> editarUsuario(@RequestBody UsuarioAtualizacaoDTO usuarioDTO) {
+	    Usuario usuarioExistente = usuarioService.findByNomeAndSenha(usuarioDTO.getNome(), usuarioDTO.getSenha());
+	    if (usuarioExistente != null) {
+	        Usuario usuarioAtualizado = usuarioService.editarUsuario(usuarioExistente, usuarioDTO);
+	        return ResponseEntity.status(200).body(usuarioAtualizado);
+	    } else {
+	        return ResponseEntity.status(404).build();
+	    }
 	}
+
+
 	
 	@DeleteMapping
 	public ResponseEntity<?> excluirUsuario(@RequestBody Usuario usuario) {
