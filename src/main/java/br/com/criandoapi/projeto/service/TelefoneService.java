@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import br.com.criandoapi.projeto.dto.TelefoneDTO;
 import br.com.criandoapi.projeto.model.Telefone;
 import br.com.criandoapi.projeto.repository.ITelefone;
 
@@ -22,15 +23,26 @@ public class TelefoneService {
 		return lista;
 	}
 
-	public Telefone criarTelefone(Telefone Telefone) {
-		Telefone TelefoneNovo = repository.save(Telefone);
-		return TelefoneNovo;
-	}
+	public Telefone criarTelefone(TelefoneDTO telefoneDTO) {
+        Telefone telefone = new Telefone();
+        telefone.atualizarDados(telefoneDTO);
 
-	public Telefone editarTelefone(Telefone Telefone) {
-		Telefone TelefoneNovo = repository.save(Telefone);
-		return TelefoneNovo;
-	}
+        Telefone telefoneNovo = repository.save(telefone);
+        return telefoneNovo;
+    }
+	
+
+	public Telefone editarTelefone(TelefoneDTO telefoneDTO) {
+        Telefone telefone = repository.findById(telefoneDTO.getId()).orElse(null);
+        if (telefone != null) {
+            telefone.atualizarDados(telefoneDTO);
+
+            Telefone telefoneEditado = repository.save(telefone);
+            return telefoneEditado;
+        }
+        return null;
+    }
+	   
 
 	public Boolean excluirTelefone(Integer id) {
         repository.deleteById(id);

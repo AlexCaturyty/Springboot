@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import br.com.criandoapi.projeto.dto.UsuarioAtualizacaoDTO;
+import br.com.criandoapi.projeto.dto.UsuarioDTO;
 import br.com.criandoapi.projeto.model.Usuario;
 import br.com.criandoapi.projeto.repository.IUsuario;
 
@@ -23,44 +23,34 @@ public class UsuarioService {
 		return lista;
 	}
 
-	public Usuario criarUsuario(Usuario usuario) {
-		Usuario usuarioNovo = repository.save(usuario);
-		return usuarioNovo;
-	}
+	public Usuario criarUsuario(UsuarioDTO usuarioDTO) {
+        Usuario usuario = new Usuario();
+        usuario.atualizarDados(usuarioDTO);
 
-	public Usuario editarUsuario(Usuario usuarioExistente, UsuarioAtualizacaoDTO usuarioDTO) {
-	    usuarioExistente.setNome(usuarioDTO.getNovoNome());
-	    usuarioExistente.setSenha(usuarioDTO.getNovaSenha());
-	    return repository.save(usuarioExistente);
-	}
+        Usuario usuarioNovo = repository.save(usuario);
+        return usuarioNovo;
+    }
+
+
+	public Usuario editarUsuario(UsuarioDTO usuarioDTO) {
+        Usuario usuario = repository.findById(usuarioDTO.getId()).orElse(null);
+        if (usuario != null) {
+            usuario.atualizarDados(usuarioDTO);
+
+            Usuario usuarioEditado = repository.save(usuario);
+            return usuarioEditado;
+        }
+        return null;
+    }
+
+	public Boolean excluirUsuario(Integer id) {
+        repository.deleteById(id);
+        return true;
+    }
 
 
 
 
 	
-
-
-	public boolean excluirUsuario(String nome, String senha) {
-	    Usuario usuario = repository.findByNome(nome);
-	    if (usuario != null && usuario.getSenha().equals(senha)) {
-	        repository.deleteById(usuario.getId());
-	        return true;
-	    }
-	    return false;
-	}
-
-
-
-	public Usuario autenticarUsuario(String nome, String senha) {
-	    Usuario usuario = repository.findByNome(nome);
-	    if (usuario != null && usuario.getSenha().equals(senha)) {
-	        return usuario;
-	    }
-	    return null; 
-	}
-
-	public Usuario findByNomeAndSenha(String nome, String senha) {
-	    return repository.findByNomeAndSenha(nome, senha);
-	}
 
 }

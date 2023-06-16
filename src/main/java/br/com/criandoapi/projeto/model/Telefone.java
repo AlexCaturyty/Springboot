@@ -1,4 +1,5 @@
 package br.com.criandoapi.projeto.model;
+import br.com.criandoapi.projeto.dto.TelefoneDTO;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -55,6 +56,12 @@ public class Telefone {
 		public void setNumero(String numero) {
 			this.numero = numero;
 		}
+		
+		 public void atualizarDados(TelefoneDTO telefoneDTO) {
+		        this.ddd = telefoneDTO.getDdd();
+		        this.numero = telefoneDTO.getNumero();
+		       
+		    }
 
 		
 }

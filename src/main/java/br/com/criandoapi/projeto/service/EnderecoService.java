@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.com.criandoapi.projeto.dto.EnderecoDTO;
 import br.com.criandoapi.projeto.model.Endereco;
 import br.com.criandoapi.projeto.repository.IEndereco;
 
@@ -22,12 +23,24 @@ public class EnderecoService {
         return enderecoRepository.findAll();
     }
 
-    public Endereco criarEndereco(Endereco endereco) {
-        return enderecoRepository.save(endereco);
+    public Endereco criarEndereco(EnderecoDTO enderecoDTO) {
+        Endereco telefone = new Endereco();
+        telefone.atualizarDados(enderecoDTO);
+
+        Endereco telefoneNovo = enderecoRepository.save(telefone);
+        return telefoneNovo;
     }
 
-    public Endereco editarEndereco(Endereco endereco) {
-        return enderecoRepository.save(endereco);
+
+	public Endereco editarEndereco(EnderecoDTO enderecoDTO) {
+        Endereco endereco = enderecoRepository.findById(enderecoDTO.getId()).orElse(null);
+        if (endereco != null) {
+            endereco.atualizarDados(enderecoDTO);
+
+            Endereco enderecoEditado = enderecoRepository.save(endereco);
+            return enderecoEditado;
+        }
+        return null;
     }
 
     public Boolean excluirEndereco(Integer id) {

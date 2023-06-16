@@ -7,13 +7,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.criandoapi.projeto.dto.UsuarioAtualizacaoDTO;
+import br.com.criandoapi.projeto.dto.UsuarioDTO;
 import br.com.criandoapi.projeto.model.Usuario;
 import br.com.criandoapi.projeto.service.UsuarioService;
 
@@ -34,46 +35,27 @@ public class UsuarioController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<Usuario> criarUsuario(@RequestBody Usuario usuario) {
-		return ResponseEntity.status(201).body(usuarioService.criarUsuario(usuario));
+	public ResponseEntity<Usuario> criarUsuario(@RequestBody UsuarioDTO usuarioDTO) {
+	    return ResponseEntity.status(201).body(usuarioService.criarUsuario(usuarioDTO));
 	}
+
 	
-	@PutMapping
-	public ResponseEntity<Usuario> editarUsuario(@RequestBody UsuarioAtualizacaoDTO usuarioDTO) {
-	    Usuario usuarioExistente = usuarioService.findByNomeAndSenha(usuarioDTO.getNome(), usuarioDTO.getSenha());
-	    if (usuarioExistente != null) {
-	        Usuario usuarioAtualizado = usuarioService.editarUsuario(usuarioExistente, usuarioDTO);
-	        return ResponseEntity.status(200).body(usuarioAtualizado);
-	    } else {
-	        return ResponseEntity.status(404).build();
-	    }
-	}
+	 @PutMapping
+	 public ResponseEntity<Usuario> editarUsuario(@RequestBody UsuarioDTO usuarioDTO) {
+	     return ResponseEntity.status(200).body(usuarioService.editarUsuario(usuarioDTO));
+	 }
 
 
 	
-	@DeleteMapping
-	public ResponseEntity<?> excluirUsuario(@RequestBody Usuario usuario) {
-	    boolean excluido = usuarioService.excluirUsuario(usuario.getNome(), usuario.getSenha());
-	    if (excluido) {
-	        return ResponseEntity.status(204).build();
-	    } else {
-	        return ResponseEntity.status(404).build();
-	    }
-	}
+	@DeleteMapping("/{id}")
+    public ResponseEntity<Usuario> excluirUsuario (@PathVariable Integer id) {
+    	usuarioService.excluirUsuario(id);
+    	return ResponseEntity.status(204).build();
+    }
+
 
 
 	
-	@PostMapping("/login")
-	public ResponseEntity<?> login(@RequestBody Usuario usuario) {
-		Usuario usuarioAutenticado = usuarioService.autenticarUsuario(usuario.getNome(), usuario.getSenha());
-		if (usuarioAutenticado != null) {
-			return ResponseEntity.status(200).body(usuarioAutenticado);
-		} else {
-			return ResponseEntity.status(401).build();
-		}
-	}
+	
 	
 }
-
-   
-

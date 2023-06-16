@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import br.com.criandoapi.projeto.dto.EnderecoDTO;
 import br.com.criandoapi.projeto.model.Endereco;
 import br.com.criandoapi.projeto.service.EnderecoService;
 
@@ -36,16 +38,16 @@ public class EnderecoController {
     }
     
     @PostMapping
-    public ResponseEntity<Endereco> criarEndereco(@RequestBody Endereco endereco) {
-        Endereco enderecoCriado = enderecoService.criarEndereco(endereco);
-        return ResponseEntity.status(201).body(enderecoCriado);
-    }
-    
-    @PutMapping
-    public ResponseEntity<Endereco> editarEndereco(@RequestBody Endereco endereco) {
-        Endereco enderecoEditado = enderecoService.editarEndereco(endereco);
-        return ResponseEntity.status(200).body(enderecoEditado);
-    }
+	public ResponseEntity<Endereco> criarEndereco(@RequestBody EnderecoDTO enderecoDTO) {
+	    return ResponseEntity.status(201).body(enderecoService.criarEndereco(enderecoDTO));
+	}
+
+	
+	 @PutMapping
+	 public ResponseEntity<Endereco> editarEndereco(@RequestBody EnderecoDTO enderecoDTO) {
+	     return ResponseEntity.status(200).body(enderecoService.editarEndereco(enderecoDTO));
+	 }
+
     
     @DeleteMapping("/{id}")
     public ResponseEntity<?> excluirEndereco (@PathVariable Integer id) {

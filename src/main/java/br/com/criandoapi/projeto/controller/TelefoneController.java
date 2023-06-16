@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.criandoapi.projeto.dto.TelefoneDTO;
 import br.com.criandoapi.projeto.model.Telefone;
 import br.com.criandoapi.projeto.service.TelefoneService;
 
@@ -34,13 +35,13 @@ public class TelefoneController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<Telefone> criarTelefone(@RequestBody Telefone telefone) {
-		return ResponseEntity.status(201).body(telefoneService.criarTelefone(telefone));
+	public ResponseEntity<Telefone> criarTelefone(@RequestBody TelefoneDTO telefoneDTO) {
+		return ResponseEntity.status(201).body(telefoneService.criarTelefone(telefoneDTO));
 	}
 	
 	@PutMapping
-	public ResponseEntity<Telefone> editarTelefone(@RequestBody Telefone telefone) {
-		return ResponseEntity.status(200).body(telefoneService.editarTelefone(telefone));
+	public ResponseEntity<Telefone> editarTelefone(@RequestBody TelefoneDTO telefoneDTO) {
+		return ResponseEntity.status(200).body(telefoneService.editarTelefone(telefoneDTO));
 	}
 	
 	@DeleteMapping("/{id}")
@@ -51,7 +52,3 @@ public class TelefoneController {
 	
 	
 }
-
-   
-
-

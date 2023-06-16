@@ -1,4 +1,5 @@
 package br.com.criandoapi.projeto.model;
+import br.com.criandoapi.projeto.dto.EnderecoDTO;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -58,5 +59,10 @@ public class Endereco {
 			this.cep = cep;
 		}
 
+		public void atualizarDados(EnderecoDTO enderecoDTO) {
+	        this.logradouro = enderecoDTO.getLogradouro();
+	        this.numero = enderecoDTO.getNumero();
+	        this.cep = enderecoDTO.getCep();
+	    }
 		
 }
